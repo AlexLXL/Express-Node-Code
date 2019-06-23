@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>02.jQueryAjax</title>
+</head>
+<body>
+<button id="btn">按钮</button>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+    $('#btn').click(function () {
+        /*中间的对象是配置对象（过滤）
+        $.get('/ajax',{ name: 'alex' }, function (data) {
+            console.log(data)
+        })*/
+
+        $.post('/ajax',{ name: 'alex' }, function (data) {
+            console.log(data)
+        })
+    })
+</script>
+</body>
+</html>

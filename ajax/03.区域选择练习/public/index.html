@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <select id="province">
+        <option>请选择省份</option>
+    </select> 省
+
+    <select id="city">
+        <option>请选择市</option>
+    </select> 市
+
+    <select id="county">
+        <option>请选择区(县)</option>
+    </select> 区(县)
+
+    <script src="js/jquery-1.12.4.js"></script>
+    <script>
+        $(function () {
+            const $province = $('#province');
+            const $city = $('#city');
+            const $county = $('#county');
+            
+            $.get('/province',function (result) {
+                if (result.code === 0) {
+                    // console.log(result.data);
+                    // result.data.reduce((prv,crr) => {console.log(222)},'');
+                    const html = result.data.reduce(( add, item ) => {
+                        return add + `<option value="${item.province}">${item.name}</option>`}, '');
+
+                    $province.append(html);
+                }else {
+                    //xxxxxxxxxxx
+                }
+            });
+
+            $province.change(function () {  //这里用箭头函数有很大问题，this指向了document，然后好像item也拿不到
+                $county.html('<option>请选择区(县)</option>');
+                const province = this.value;
+                $.get('/city', { province }, function (result) {
+                    if (result.code === 0) {
+                        const html = result.data.reduce(( add, item ) => add + `<option value="${item.city}">${item.name}</option>`, '<option>请选择市</option>');
+                        $city.html(html);
+                    }else {
+                        //xxxxxxxxxxx
+                    }
+                })
+            });
+
+            $city.change(function () {
+                const province = $province.val();
+                const city = this.value;
+                $.get('/county', { province, city }, function (result) {
+                    if (result.code === 0) {
+                        const html = result.data.reduce(( add, item ) => add + `<option value="${item.county}">${item.name}</option>`, '<option>请选择区(县)</option>');
+                        $county.html(html);
+                    }else {
+                        //xxxxxxxxxxx
+                    }
+                })
+            })
+
+        })
+
+
+    </script>
+</body>
+</html>

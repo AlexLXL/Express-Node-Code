@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jsonp实现跨域</title>
+</head>
+<body>
+<button id="btn">按钮</button>
+<script>
+    document.getElementById('btn').onclick = function () {
+        const script = document.createElement('script');              // 1.创建script标签
+
+        script.src = 'http://localhost:3000/jsonp?callback=jsonpFn';  // 2.设置script标签src，发送请求
+
+        window.jsonpFn = function (data) {                           // 3.通过jsonp返回函数调用（返回的是直接调用，所以这里设置为window）
+            console.log(data)
+        };
+
+        document.body.appendChild(script)                             // 4.插入页面
+    }
+</script>
+</body>
+</html>
