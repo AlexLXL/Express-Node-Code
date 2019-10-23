@@ -19,3 +19,6 @@ app.listen(3000,(err) => {
 });
 
 /*注释：测试git reset*/
+
+const temp = 1;
+let foo = 2;
